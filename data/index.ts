@@ -4,7 +4,7 @@
 export const businessInfo = {
   name: "Galon Consulting Services, LLC",
   email: "galonconsulting@outlook.com",
-  phone: "7702563765",
+  phone: "770-256-3765",
   address: {
     street: "3355 Sweetwater Rd Apt 4303",
     city: "Lawrenceville",

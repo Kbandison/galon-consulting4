@@ -31,7 +31,7 @@ export default function FAQPage() {
   return (
     <main className="bg-[var(--color-background)] min-h-screen">
       {/* Header Section */}
-      <header className="relative min-h-[340px] flex items-center justify-center mb-16 mt-16">
+      <header className="relative min-h-[480px] flex items-center justify-center mb-16 mt-16">
         <Image
           src="/cta-bg.png"
           alt="FAQ background"
