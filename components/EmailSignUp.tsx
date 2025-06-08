@@ -68,7 +68,7 @@ export default function EmailSignup() {
             autoComplete="email"
             placeholder="Your email"
             className="
-              flex-1 px-5 py-4 rounded-xl border border-[var(--color-border)]
+              flex-1 px-5 py-3 rounded-xl border border-[var(--color-border)]
               text-base sm:text-lg focus:outline-none focus:border-[var(--color-primary)]
               bg-[var(--color-background)]/70
             "
@@ -78,7 +78,7 @@ export default function EmailSignup() {
           <button
             type="submit"
             className="
-              px-7 py-4 rounded-xl font-semibold text-base sm:text-lg
+              px-5 py-3 rounded-xl font-semibold text-base sm:text-md
               bg-[var(--color-primary)] text-[var(--color-background)]
               hover:bg-[var(--color-accent)] transition-colors
               shadow
