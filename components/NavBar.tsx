@@ -12,24 +12,22 @@ import {
 import { navLinks } from "@/data/index";
 import { useEffect, useState } from "react";
 
-// Optional: Tailwind's sr-only for accessible, hidden title
 const srOnly = "sr-only";
-
-// Navbar height (for hero top padding)
 const NAV_HEIGHT = 72;
 
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
-  // Add scroll effect on mount
+  // NEW: Track mobile Sheet open state
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Conditional classes based on scroll position
   const navClass = scrolled
     ? "bg-white/90 border-b border-[var(--color-border)] shadow-lg"
     : "bg-transparent border-b border-transparent shadow-none";
@@ -104,7 +102,7 @@ export default function Navbar() {
 
         {/* Mobile Hamburger (Sheet) */}
         <div className="md:hidden ml-2">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <button
                 className={`
@@ -148,6 +146,7 @@ export default function Navbar() {
                       }
                     `}
                     aria-current={pathname === link.href ? "page" : undefined}
+                    onClick={() => setOpen(false)} // AUTO CLOSE!
                   >
                     {link.label}
                   </Link>
@@ -158,6 +157,7 @@ export default function Navbar() {
                     mt-5 inline-block px-4 py-3 rounded-2xl bg-[var(--color-primary)] text-white font-semibold text-center
                     hover:bg-[var(--color-accent)] transition-colors
                   "
+                  onClick={() => setOpen(false)} // AUTO CLOSE!
                 >
                   Book Now
                 </Link>
