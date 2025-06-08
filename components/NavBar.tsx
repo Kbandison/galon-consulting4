@@ -72,7 +72,7 @@ export default function Navbar() {
                       ? "text-[var(--color-primary)] font-semibold"
                       : scrolled
                       ? "text-[var(--color-foreground)] hover:text-[var(--color-primary)]"
-                      : "text-white hover:text-[var(--color-primary)]"
+                      : "text-black hover:text-[var(--color-primary)]"
                   }
                 `}
                 aria-current={pathname === link.href ? "page" : undefined}
@@ -113,10 +113,13 @@ export default function Navbar() {
                 `}
                 aria-label="Open menu"
               >
-                <Menu className="h-7 w-7" />
+                <Menu className="h-7 w-7 text-[var(--color-foreground)]" />
               </button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 bg-white/95 pt-8 px-6">
+            <SheetContent
+              side="left"
+              className="w-72 bg-[var(--color-background)] pt-8 px-6"
+            >
               <SheetTitle className={srOnly}>Navigation Menu</SheetTitle>
               <div className="mb-8 flex items-center gap-2">
                 <Image
@@ -124,7 +127,7 @@ export default function Navbar() {
                   alt="Galon Consulting Services Logo"
                   width={36}
                   height={36}
-                  className="h-9 w-9 object-contain"
+                  className="h-12 w-12 object-contain"
                   priority
                 />
                 <span className="font-serif font-bold text-lg text-[var(--color-accent)]">

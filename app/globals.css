@@ -126,6 +126,28 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.rdp {
+  --rdp-accent-color: #e03131;
+}
+.rdp-day_selected,
+.rdp-day_selected:focus,
+.rdp-day_selected:hover {
+  background-color: #e03131 !important;
+  color: #fff !important;
+}
+.rdp-day_today {
+  border: 2px solid #e03131 !important;
+}
+.rdp-button[aria-label="Next month"],
+.rdp-button[aria-label="Previous month"] {
+  color: #e03131 !important;
+}
+
+/* In your globals.css or at the top of the FAQ page with <style jsx global> */
+.hide-chevron > svg:last-child {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

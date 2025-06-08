@@ -21,6 +21,7 @@ export const navLinks = [
   { label: "About", href: "/about" },
   { label: "Booking", href: "/booking" },
   { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 // ===== Types =====
