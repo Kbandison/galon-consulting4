@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import Image from "next/image";
 import { useState } from "react";
@@ -7,7 +5,6 @@ import { businessInfo } from "@/data/index";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function ContactPage() {
-  // Basic client-side form handling (replace with your API if needed)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,19 +13,35 @@ export default function ContactPage() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: { target: { name: any; value: any } }) =>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    // TODO: Replace with actual email/send logic
-    setTimeout(() => {
+    setSubmitted(false);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to send message.");
+        return;
+      }
       setSubmitted(true);
-      setSubmitting(false);
       setForm({ name: "", email: "", phone: "", message: "" });
-    }, 1300);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -36,7 +49,7 @@ export default function ContactPage() {
       {/* Header */}
       <header className="relative min-h-[480px] flex items-center justify-center mb-12 mt-16">
         <Image
-          src="/cta-bg.png" // Place your image in public as /contact-bg.jpg
+          src="/cta-bg.png"
           alt="Contact background"
           fill
           priority
@@ -102,7 +115,6 @@ export default function ContactPage() {
               <span>{businessInfo.hours}</span>
             </span>
           </div>
-          {/* Optional: Google Map embed (replace with your address/map or delete if not needed) */}
           <div className="rounded-2xl overflow-hidden shadow-md h-60">
             <iframe
               title="Business Map"
@@ -188,11 +200,9 @@ export default function ContactPage() {
             disabled={submitting || submitted}
             className={`
               mt-2 w-full sm:w-auto px-8 py-3 rounded-2xl font-semibold text-lg transition
-              ${
-                submitting || submitted
-                  ? "bg-[var(--color-muted)] text-white cursor-not-allowed"
-                  : "bg-[var(--color-primary)] text-white hover:bg-[var(--color-accent)]"
-              }
+              ${submitting || submitted
+                ? "bg-[var(--color-muted)] text-white cursor-not-allowed"
+                : "bg-[var(--color-primary)] text-white hover:bg-[var(--color-accent)]"}
             `}
           >
             {submitting
@@ -201,6 +211,11 @@ export default function ContactPage() {
               ? "Message Sent!"
               : "Send Message"}
           </button>
+          {error && (
+            <div className="text-red-600 font-semibold text-center mt-2">
+              {error}
+            </div>
+          )}
           {submitted && (
             <div className="text-green-600 font-semibold text-center mt-2">
               Thank you for reaching out! We will respond as soon as possible.
