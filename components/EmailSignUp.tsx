@@ -78,7 +78,7 @@ export default function EmailSignup() {
           <button
             type="submit"
             className="
-              px-5 py-3 rounded-xl font-semibold text-base sm:text-md
+              px-5 py-3 rounded-xl font-semibold text-md sm:text-lg
               bg-[var(--color-primary)] text-[var(--color-background)]
               hover:bg-[var(--color-accent)] transition-colors
               shadow
