@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://galon-consulting.vercel.app/sitemap.xml
