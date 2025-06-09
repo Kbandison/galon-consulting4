@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
 import { useState } from "react";
@@ -15,8 +17,9 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -200,16 +203,18 @@ export default function ContactPage() {
             disabled={submitting || submitted}
             className={`
               mt-2 w-full sm:w-auto px-8 py-3 rounded-2xl font-semibold text-lg transition
-              ${submitting || submitted
-                ? "bg-[var(--color-muted)] text-white cursor-not-allowed"
-                : "bg-[var(--color-primary)] text-white hover:bg-[var(--color-accent)]"}
+              ${
+                submitting || submitted
+                  ? "bg-[var(--color-muted)] text-white cursor-not-allowed"
+                  : "bg-[var(--color-primary)] text-white hover:bg-[var(--color-accent)]"
+              }
             `}
           >
             {submitting
               ? "Sending..."
               : submitted
-              ? "Message Sent!"
-              : "Send Message"}
+                ? "Message Sent!"
+                : "Send Message"}
           </button>
           {error && (
             <div className="text-red-600 font-semibold text-center mt-2">
