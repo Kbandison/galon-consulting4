@@ -107,7 +107,7 @@ export default function ServicesPage() {
       <header className="relative min-h-[480px] flex items-center justify-center mb-16 mt-0">
         {/* Background image */}
         <Image
-          src="/cta-bg.png" // Replace with your image path
+          src="/services-bg.png" // Replace with your image path
           alt="Healthcare background"
           fill
           priority
