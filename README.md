@@ -74,12 +74,3 @@ This site is a tailored solution for Galon Consulting Services, LLC, providing h
 - Vercel account for deployment (optional but recommended)
 
 ---
-
-## Getting Started
-
-1. **Clone the repo:**
-
-   ```bash
-   git clone https://github.com/yourusername/galon-consulting.git
-   cd galon-consulting
-   ```
