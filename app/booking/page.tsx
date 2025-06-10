@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { serviceCategories } from "@/data/index";
@@ -26,6 +27,8 @@ const services = serviceCategories
   .map((s) => ({ id: s.id, name: s.name }));
 
 export default function BookingPage() {
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState(1);
   const [showConfirm, setShowConfirm] = useState(false);
   const [form, setForm] = useState({
@@ -36,6 +39,7 @@ export default function BookingPage() {
     date: undefined as Date | undefined,
     time: "",
   });
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
 
   // For fade animation between steps
   const [fade, setFade] = useState(true);
@@ -47,8 +51,57 @@ export default function BookingPage() {
     }, 120);
   };
 
+  useEffect(() => {
+    if (form.date) {
+      const fetchBooked = async () => {
+        const res = await fetch(
+          `/api/booked-slots?date=${form.date!.toISOString().slice(0, 10)}`
+        );
+        if (res.ok) {
+          const json = await res.json();
+          setBookedTimes(json.bookedTimes);
+        } else {
+          setBookedTimes([]);
+        }
+      };
+      fetchBooked();
+    } else {
+      setBookedTimes([]);
+    }
+  }, [form.date]);
+
   function updateField(field: string, value: any) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleSubmit() {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          date: form.date ? form.date.toISOString().slice(0, 10) : null, // store as YYYY-MM-DD
+        }),
+      });
+      if (res.status === 409) {
+        setError("That time slot is already booked. Please choose another.");
+        setSubmitting(false);
+        return;
+      }
+      if (!res.ok) {
+        setError("Something went wrong. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+      setShowConfirm(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -226,6 +279,7 @@ export default function BookingPage() {
                     variant={form.time === time ? "default" : "outline"}
                     onClick={() => updateField("time", time)}
                     className="min-w-[120px] py-3 text-lg rounded-xl"
+                    disabled={bookedTimes.includes(time)}
                   >
                     {time}
                   </Button>
@@ -327,14 +381,21 @@ export default function BookingPage() {
                 >
                   Back
                 </Button>
+
                 <Button
                   type="button"
                   className="px-10 py-4 text-xl rounded-xl bg-[var(--color-accent)] text-white hover:bg-[var(--color-primary)] transition"
-                  onClick={() => setShowConfirm(true)}
+                  onClick={handleSubmit}
+                  disabled={submitting}
                 >
-                  Confirm & Book
+                  {submitting ? "Booking..." : "Confirm & Book"}
                 </Button>
               </div>
+              {error && (
+                <div className="text-red-600 font-semibold text-center mb-2">
+                  {error}
+                </div>
+              )}
             </div>
           )}
         </div>

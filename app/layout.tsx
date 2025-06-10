@@ -2,6 +2,7 @@ import Navbar from "@/components/NavBar";
 import "./globals.css";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: {
@@ -98,6 +99,7 @@ export default function RootLayout({
       <body className="bg-[var(--color-background)]">
         <Navbar />
         {children}
+        <ChatWidget />
         <Footer />
       </body>
     </html>
