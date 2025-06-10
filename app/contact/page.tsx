@@ -52,7 +52,7 @@ export default function ContactPage() {
       {/* Header */}
       <header className="relative min-h-[480px] flex items-center justify-center mb-12 mt-16">
         <Image
-          src="/cta-bg.png"
+          src="/contact-bg.png"
           alt="Contact background"
           fill
           priority

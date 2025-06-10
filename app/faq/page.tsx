@@ -33,7 +33,7 @@ export default function FAQPage() {
       {/* Header Section */}
       <header className="relative min-h-[480px] flex items-center justify-center mb-16 mt-16">
         <Image
-          src="/cta-bg.png"
+          src="/faq-bg.png"
           alt="FAQ background"
           fill
           priority

@@ -109,7 +109,7 @@ export default function BookingPage() {
       {/* Header (matches Services) */}
       <header className="relative min-h-[480px] flex items-center justify-center mb-16 mt-16">
         <Image
-          src="/cta-bg.png"
+          src="/bk-bg.png"
           alt="Healthcare background"
           fill
           priority
