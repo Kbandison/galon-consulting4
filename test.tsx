@@ -47,8 +47,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Database error." }, { status: 500 });
   }
 
-  // --- ICS CALENDAR ATTACHMENT ---
-  // Convert the date and time to a JS Date object (assuming local time; adapt for timezones if needed)
+  // ICS CALENDAR ATTACHMENT
   const startDateTime = new Date(`${date} ${time}`);
   const endDateTime = addOneHour(startDateTime);
   const location = "3355 Sweetwater Rd Apt 4303, Lawrenceville, GA 30044";
@@ -69,7 +68,7 @@ END:VEVENT
 END:VCALENDAR
 `.trim();
 
-  // Styled HTML (same as before, but you can add a note about the ICS file)
+  // Styled HTML
   const businessHtml = `
   <div style="max-width:480px;margin:0 auto;padding:32px 24px;background:#f7f8fa;border-radius:14px;font-family:system-ui,Arial,sans-serif;color:#2d3748;">
     <h1 style="color:#19b2ff;font-size:2rem;margin:0 0 18px 0;">New Booking!</h1>
@@ -112,34 +111,45 @@ END:VCALENDAR
   </div>
   `;
 
-  // --- Send emails with ICS attachment ---
-  await resend.emails.send({
-    from: "Galon Consulting <onboarding@resend.dev>",
-    to: ["recruitment@embraceihs.com"],
-    subject: "New Booking",
-    html: businessHtml,
-    attachments: [
-      {
-        filename: "appointment.ics",
-        content: icsContent,
-        contentType: "text/calendar",
-      },
-    ],
-  });
+  // --- Send emails with ICS attachment, catch any failure ---
+  try {
+    await resend.emails.send({
+      from: "Galon Consulting <onboarding@resend.dev>",
+      to: ["kbandison@gmail.com"],
+      subject: "New Booking",
+      html: businessHtml,
+      attachments: [
+        {
+          filename: "appointment.ics",
+          content: icsContent,
+          contentType: "text/calendar",
+        },
+      ],
+    });
 
-  await resend.emails.send({
-    from: "Galon Consulting <onboarding@resend.dev>",
-    to: [email],
-    subject: "Your Appointment is Confirmed!",
-    html: customerHtml,
-    attachments: [
-      {
-        filename: "appointment.ics",
-        content: icsContent,
-        contentType: "text/calendar",
-      },
-    ],
-  });
+    await resend.emails.send({
+      from: "Galon Consulting <onboarding@resend.dev>",
+      to: [email],
+      subject: "Your Appointment is Confirmed!",
+      html: customerHtml,
+      attachments: [
+        {
+          filename: "appointment.ics",
+          content: icsContent,
+          contentType: "text/calendar",
+        },
+      ],
+    });
 
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    // Give yourself max info for debugging Resend issues!
+    return NextResponse.json(
+      {
+        error: "Failed to send email via Resend.",
+        details: e?.message || JSON.stringify(e),
+      },
+      { status: 500 }
+    );
+  }
 }

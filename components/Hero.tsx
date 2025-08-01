@@ -15,7 +15,7 @@ export default function Hero() {
     >
       {/* Background Image */}
       <Image
-        src="/hero-bg.png"
+        src="/Hospital Team Meeting_remix_01k1hnad7ten2se6wmg3a9r98e.png"
         alt="Smiling healthcare team"
         fill
         priority

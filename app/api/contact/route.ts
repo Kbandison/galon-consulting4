@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
 console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
 console.log("Supabase Key:", process.env.SUPABASE_SERVICE_ROLE_KEY);
+console.log("LOADED: /api/contact route file");
+console.log("Resend API Key:", process.env.RESEND_API_KEY);
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,7 +20,7 @@ export async function POST(req: NextRequest) {
 
     // Insert into Supabase
     const { error: dbError } = await supabase
-      .from("contact_submissions") // <-- Your table name here
+      .from("contact_submissions")
       .insert([{ name, email, phone, message }]);
     if (dbError) {
       console.error("Supabase DB Error:", dbError);
@@ -46,8 +49,8 @@ export async function POST(req: NextRequest) {
     `;
 
     await resend.emails.send({
-      from: "Galon Consulting - New Contact <onboarding@resend.dev>", // Use a domain you own and have set up in Resend
-      to: ["kbandison@gmail.com"],
+      from: "Galon Consulting - New Contact <onboarding@resend.dev>",
+      to: ["recruitment@embraceihs.com"],
       subject: "New Contact Form Submission",
       html: notificationEmailHtml,
       replyTo: email,
@@ -81,10 +84,12 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (err) {
+  } catch (err: any) {
     console.error("API Route Error:", err);
+    console.log("API Route Error:", err);
+    // If it's a Resend error, show the details
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", details: err?.message || String(err) },
       { status: 500 }
     );
   }
