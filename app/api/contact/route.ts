@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     `;
 
     await resend.emails.send({
-      from: "Galon Consulting - New Contact <onboarding@resend.dev>",
+      from: "Galon Consulting - New Contact <support@galonconsulting.org>",
       to: ["recruitment@embraceihs.com"],
       subject: "New Contact Form Submission",
       html: notificationEmailHtml,
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
     `;
 
     await resend.emails.send({
-      from: "Galon Consulting <onboarding@resend.dev>",
+      from: "Galon Consulting <support@galonconsulting.org>",
       to: [email],
       subject: "Thank you for contacting Galon Consulting Services!",
       html: autoresponderEmailHtml,

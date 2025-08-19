@@ -114,7 +114,7 @@ END:VCALENDAR
 
   // --- Send emails with ICS attachment ---
   await resend.emails.send({
-    from: "Galon Consulting <onboarding@resend.dev>",
+    from: "Galon Consulting <support@galonconsulting.org>",
     to: ["recruitment@embraceihs.com"],
     subject: "New Booking",
     html: businessHtml,
@@ -128,7 +128,7 @@ END:VCALENDAR
   });
 
   await resend.emails.send({
-    from: "Galon Consulting <onboarding@resend.dev>",
+    from: "Galon Consulting <support@galonconsulting.org>",
     to: [email],
     subject: "Your Appointment is Confirmed!",
     html: customerHtml,

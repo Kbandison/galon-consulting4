@@ -125,8 +125,8 @@ export async function GET(req: NextRequest) {
 
   // 7. Send the digest email
   await resend.emails.send({
-    from: "Galon Consulting <onboarding@resend.dev>",
-    to: ["kbandison@gmail.com"], // <-- set business owner email
+    from: "Galon Consulting <support@galonconsulting.org>",
+    to: ["recruitment@embraceihs.com"], // <-- set business owner email
     subject: "New Contact Leads Digest",
     html: emailBody,
   });
